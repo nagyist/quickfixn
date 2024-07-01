@@ -60,6 +60,11 @@ What's New
      * Also refactor the heck out of DateTimeConverter & tests: many functions renamed/deprecated
 * #847 - remove setting MillisecondsInTimeStamp (gbirchmeier)
      * Use TimestampPrecision instead (same as QF/j)
+* #830 - replace ClientThreadHandler "Debug" logs with NonSessionLog (gbirchmeier)
+     * ILogFactory extended with a `CreateNonSessionLog()`.  Pretty easy to implement though.
+     * Some classes were internalized, but I can't imagine people are using them in their app code.
+     * See details/explanation at https://github.com/connamara/quickfixn/pull/830
+
 
 **Non-breaking changes**
 * #400 - added DDTool, a C#-based codegen, and deleted Ruby-based generator (gbirchmeier)
@@ -83,6 +88,7 @@ What's New
     * Cleanup/nullable-ize SocketInitiatorThread (gbirchmeier)
 * #839 - change ScreenLog to output FIX messages with "|" instead of non-visible SOH (gbirchmeier)
 * #844 - implement "Weekdays" setting (MichalUssuri/gbirchmeier)
+* #859 - implement proper path searching for CA certs in config (gbirchmeier)
 
 ### v1.11.2:
 * same as v1.11.1, but I fixed the readme in the pushed nuget packages

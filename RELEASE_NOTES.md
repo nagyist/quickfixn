@@ -18,10 +18,16 @@ What's New
 ### upcoming v1.13.0
 
 **Breaking changes**
-* #883 - Moved to .NET 8
+* #883 - Moved to .NET 8 (huypn12)
 * #878 - corrections to tag 45 "Side" in various DDs (gbirchmeier) - most people won't notice, easy fix if they do
      * fix typo in FIX50 and FIX50SP1: `CROSS_SHORT_EXXMPT` fixed to `CROSS_SHORT_EXEMPT`
      * correction in FIX41 and FIX42: `D` to `UNDISCLOSED`
+* #863 - Change Message.ToString() to not alter object state anymore. (gbirchmeier)
+         Use new function Message.ConstructString() if you need BodyLength/CheckSum to be updated.
+* #887 - cleanup/nullable-ize FixValues, Session, DataDictionary, DataDictionaryProvider, Message, MessageCracker,
+         SocketSettings, SslStreamFactory (gbirchmeier)
+     * DataDictionary.CheckIsInGroup is now static
+     * Get rid of non-static DataDictionary.Validate functions
 
 **Non-breaking changes**
 * #864 - when multiple threads race to init DefaultMessageFactory,
@@ -29,6 +35,13 @@ What's New
          finishes loading all the dlls (gbirchmeier, with thanks to diagnosis by Brian Leach aka baffled)
          (Note: this may be the cause of spurious "incorrect BeginString" issues that have been observed)
 * #877 - throw an exception if Message.ToJSON(dd=null,convertEnumsToDescriptions=true) is called (gbirchmeier)
+* #888 - cleanup/nullable-ize IField-derived classes (gbirchmeier)
+     * deprecate lower-case-starting function names (renamed to upper-case-starting)
+     * deprecate <Foo>Field.Obj (renamed to Value)
+     * deprecate <Foo>Field.getValue/setValue (just use Value getter/setter)
+* #889 - nullable-ize Examples and fix deprecations (gbirchmeier)
+* #892 - nullable-ize UnitTests project (gbirchmeier)
+     * also deprecate a AcceptorSocketDescriptor ctor due to unused param
 
 ### v1.12.0
 

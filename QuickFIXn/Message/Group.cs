@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System;
+﻿using System;
 using System.Text;
 
 namespace QuickFix
@@ -63,6 +62,10 @@ namespace QuickFix
         /// </summary>
         public int Delim { get; }
 
+        /// <summary>
+        /// Creates a FIX (ish) string representation of this FieldMap (does not change the object state)
+        /// </summary>
+        /// <returns></returns>
         public override string CalculateString() {
             return base.CalculateString(new StringBuilder(), FieldOrder ?? new[] { Delim });
         }

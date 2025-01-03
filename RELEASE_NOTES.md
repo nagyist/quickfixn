@@ -50,6 +50,13 @@ What's New
 * #516 - remove ability to toggle Session-enable via HttpServer because it never really worked (gbirchmeier)
 * #913/#741 - new FieldMap.ReadGroups for iterating on groups (NoviProg/gbirchmeier)
 * #914 - Optimize MessageCracker.IsHandlerMethod (vasily-balansea)
+* #742 - Improvements to HTTP web proxy (IanLeeClaxton)
+* #277 - change FileStore.SetSeqNum() to dispose StreamWriter (hlibman)
+* #921 - clean up generated code (gbirchmeier)
+     * enable nullable in Messages projects
+     * mark IMessageFactory.Create's Group return value as nullable
+     * rename/deprecate a name-convention-breaking static const
+     * reduce code size and unnecessary empty lines
 
 ### v1.12.0
 

@@ -31,7 +31,7 @@ What's New
 
 
 ### next release (v1.14.1 or higher)
-* #841 - support for CME Enhanced Resend (gbirchmeier)
+* #841 - experimental support for CME Enhanced Resend (gbirchmeier)
 
 
 ### v1.14.0

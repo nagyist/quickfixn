@@ -32,6 +32,7 @@ What's New
 
 ### next release (v1.14.1 or higher)
 * #841 - experimental support for CME Enhanced Resend (gbirchmeier)
+* #961 - new GenerateKeys app to create Example-app SSL certs (dckorben/gbirchmeier)
 
 
 ### v1.14.0

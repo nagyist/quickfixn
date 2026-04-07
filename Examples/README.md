@@ -22,6 +22,23 @@ To run each, go into its directory and use `dotnet run <config>`, e.g.
 * `Examples/Executor> dotnet run executor.cfg`
 * `Examples/TradeClient> dotnet run tradeclient.cfg`
 
+### A note about SSL variant configurations
+
+Many of the following applications have alternate `*_ssl.cfg`
+files that you can use to demonstrate secure communication over SSL.
+
+**However**, they require some certificate files that must be created by
+the included `GenerateKeys` app.
+
+```
+~/quickfixn/GenerateKeys$ dotnet run ../Examples/
+Writing CACertificate: ../Examples/QuickFixn-TestCA.cer
+Writing ServerCertificate: ../Examples/QuickFixn-TestServer.pfx
+Writing ClientCertificate: ../Examples/QuickFixn-TestClient.pfx
+```
+
+That's it!  Now you can run examples using `*_ssl.cfg` configs.
+
 
 ### SimpleAcceptor
 

@@ -1,10 +1,13 @@
-﻿using System.Net;
+﻿using System;
+using System.IO;
+using System.Net;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
 if (args.Length == 0)
 {
     Console.WriteLine("First parameter must be the certificate destination path.");
+    Console.WriteLine("(The path should be whatever <reporoot>/Examples is on your system)");
     return;
 }
 
@@ -20,11 +23,13 @@ var caCertificate = CreateCaCertificate();
 Console.WriteLine($"Writing CACertificate: {caCertificatePath}");
 File.WriteAllBytes(caCertificatePath, caCertificate.Export(X509ContentType.Cert));
 
-var serverCertificate = CreateServerCertificate(caCertificate);
+var serverCertificate = CreateAppCertificate(caCertificate,
+    "CN=QuickFixn-TestServer", new Oid("1.3.6.1.5.5.7.3.1"), [0, 0, 0, 0, 0, 0, 0, 1]);
 Console.WriteLine($"Writing ServerCertificate: {serverPfxCertificatePath}");
 File.WriteAllBytes(serverPfxCertificatePath, serverCertificate.Export(X509ContentType.Pfx, pfxPassword));
 
-var clientCertificate = CreateClientCertificate(caCertificate);
+var clientCertificate = CreateAppCertificate(caCertificate,
+    "CN=QuickFixn-TestClient", new Oid("1.3.6.1.5.5.7.3.2"), [0, 0, 0, 0, 0, 0, 0, 2]);
 Console.WriteLine($"Writing ClientCertificate: {clientPfxCertificatePath}");
 File.WriteAllBytes(clientPfxCertificatePath, clientCertificate.Export(X509ContentType.Pfx, pfxPassword));
 
@@ -42,52 +47,21 @@ static X509Certificate2 CreateCaCertificate()
     return certificate;
 }
 
-static X509Certificate2 CreateServerCertificate(X509Certificate2 caCertificate)
+static X509Certificate2 CreateAppCertificate(X509Certificate2 caCertificate, string subjectName, Oid oid, ReadOnlySpan<byte> serialNumber)
 {
-    using var rsa = RSA.Create();
-    using (RSA? caPrivateKey = caCertificate.GetRSAPrivateKey())
-    {
-        var request = new CertificateRequest($"CN=QuickFixn-TestServer", rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-        request.CertificateExtensions.Add(new X509BasicConstraintsExtension(false, false, 0, true));
-        request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.DigitalSignature | X509KeyUsageFlags.KeyEncipherment, true));
+    using RSA rsa = RSA.Create();
+    CertificateRequest request = new(subjectName, rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+    request.CertificateExtensions.Add(new X509BasicConstraintsExtension(false, false, 0, true));
+    request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.DigitalSignature | X509KeyUsageFlags.KeyEncipherment, true));
 
-        var sanBuilder = new SubjectAlternativeNameBuilder();
-        sanBuilder.AddDnsName("localhost");
-        sanBuilder.AddIpAddress(IPAddress.Loopback);
-        request.CertificateExtensions.Add(sanBuilder.Build());
+    SubjectAlternativeNameBuilder sanBuilder = new();
+    sanBuilder.AddDnsName("localhost");
+    sanBuilder.AddIpAddress(IPAddress.Loopback);
+    request.CertificateExtensions.Add(sanBuilder.Build());
 
-        var enhancedKeyUsages = new OidCollection
-        {
-            new Oid("1.3.6.1.5.5.7.3.1"), // OID for Server Authentication
-        };
-        request.CertificateExtensions.Add(new X509EnhancedKeyUsageExtension(enhancedKeyUsages, true));
+    OidCollection enhancedKeyUsages = new() { oid };
+    request.CertificateExtensions.Add(new X509EnhancedKeyUsageExtension(enhancedKeyUsages, true));
 
-        X509Certificate2 certificate = request.Create(caCertificate, DateTimeOffset.UtcNow.AddDays(-1), DateTimeOffset.UtcNow.AddDays(5), [0, 0, 0, 0, 0, 0, 0, 1]);
-        return certificate.CopyWithPrivateKey(rsa);
-    }
-}
-
-static X509Certificate2 CreateClientCertificate(X509Certificate2 caCertificate)
-{
-    using var rsa = RSA.Create();
-    using (RSA? caPrivateKey = caCertificate.GetRSAPrivateKey())
-    {
-        var request = new CertificateRequest($"CN=QuickFixn-TestClient", rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-        request.CertificateExtensions.Add(new X509BasicConstraintsExtension(false, false, 0, true));
-        request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.DigitalSignature | X509KeyUsageFlags.KeyEncipherment, true));
-
-        var sanBuilder = new SubjectAlternativeNameBuilder();
-        sanBuilder.AddDnsName("localhost");
-        sanBuilder.AddIpAddress(IPAddress.Loopback);
-        request.CertificateExtensions.Add(sanBuilder.Build());
-
-        var enhancedKeyUsages = new OidCollection
-        {
-            new Oid("1.3.6.1.5.5.7.3.2")  // OID for Client Authentication
-        };
-        request.CertificateExtensions.Add(new X509EnhancedKeyUsageExtension(enhancedKeyUsages, true));
-
-        X509Certificate2 certificate = request.Create(caCertificate, DateTimeOffset.UtcNow.AddDays(-1), DateTimeOffset.UtcNow.AddDays(5), [0, 0, 0, 0, 0, 0, 0, 2]);
-        return certificate.CopyWithPrivateKey(rsa);
-    }
+    X509Certificate2 certificate = request.Create(caCertificate, DateTimeOffset.UtcNow.AddDays(-1), DateTimeOffset.UtcNow.AddDays(5), serialNumber);
+    return certificate.CopyWithPrivateKey(rsa);
 }

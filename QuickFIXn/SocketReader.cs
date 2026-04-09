@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using QuickFix.Logger;
+using QuickFix.Util;
 
 namespace QuickFix;
 
@@ -135,7 +136,9 @@ public class SocketReader : IDisposable
 
                 if (_qfSession.HasResponder)
                 {
-                    _qfSession.Log.Log(LogLevel.Information, LogEventIds.IncomingMessage, "{Message}", msg);
+                    _qfSession.Log.Log(LogLevel.Information, LogEventIds.IncomingMessage, "{Message}",
+                        LogAssist.RedactSensitiveFields(
+                            msg, _qfSession.RedactFieldsInLogs, _qfSession.RedactionLogText));
                     _qfSession.Log.Log(LogLevel.Error,
                         "Multiple logons/connections for this session are not allowed ({Endpoint})",
                         _tcpClient.Client.RemoteEndPoint);

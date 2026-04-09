@@ -6,6 +6,7 @@ using QuickFix.Fields;
 using QuickFix.Fields.Converters;
 using QuickFix.Logger;
 using QuickFix.Store;
+using QuickFix.Util;
 
 namespace QuickFix
 {
@@ -223,6 +224,9 @@ namespace QuickFix
 
         public bool CmeEnhancedResend { get; set; }
 
+        public int[] RedactFieldsInLogs { get; set; } = [];
+        public string RedactionLogText { get; set; } = "<redacted>";
+
         #endregion
 
         internal Session(
@@ -368,10 +372,11 @@ namespace QuickFix
                 {
                     using (Log.BeginScope(new Dictionary<string, object>
                            {
-                               {"MessageType", Message.GetMsgType(message)}
+                               { "MessageType", Message.GetMsgType(message) }
                            }))
                     {
-                        Log.Log(MessagesLogLevel, LogEventIds.OutgoingMessage, "{Message}", message);
+                        Log.Log(MessagesLogLevel, LogEventIds.OutgoingMessage, "{Message}",
+                            LogAssist.RedactSensitiveFields(message, RedactFieldsInLogs, RedactionLogText));
                     }
                 }
 
@@ -541,16 +546,17 @@ namespace QuickFix
                 {
                     using (Log.BeginScope(new Dictionary<string, object>
                            {
-                               {"MessageType", Message.GetMsgType(msgStr)}
+                               { "MessageType", Message.GetMsgType(msgStr) }
                            }))
                     {
-                        Log.Log(MessagesLogLevel, LogEventIds.IncomingMessage, "{Message}", msgStr);
+                        Log.Log(MessagesLogLevel, LogEventIds.IncomingMessage, "{Message}",
+                            LogAssist.RedactSensitiveFields(msgStr, RedactFieldsInLogs, RedactionLogText));
                     }
                 }
-            }
-            catch (Exception)
+            } catch (Exception)
             {
-                Log.Log(MessagesLogLevel, LogEventIds.IncomingMessage, "{Message}", msgStr);
+                Log.Log(MessagesLogLevel, LogEventIds.IncomingMessage, "{Message}",
+                    LogAssist.RedactSensitiveFields(msgStr, RedactFieldsInLogs, RedactionLogText));
             }
 
             MessageBuilder msgBuilder = new MessageBuilder(

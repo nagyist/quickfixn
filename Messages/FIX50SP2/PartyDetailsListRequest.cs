@@ -169,7 +169,7 @@ public class PartyDetailsListRequest : Message
     {
         public static int[] DefaultFieldOrder = [Tags.PartyListResponseType, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.PartyListResponseType, 0};
 
         public NoPartyListResponseTypesGroup()
@@ -205,7 +205,7 @@ public class PartyDetailsListRequest : Message
     {
         public static int[] DefaultFieldOrder = [Tags.PartyID, Tags.PartyIDSource, Tags.PartyRole, Tags.NoPartySubIDs, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.PartyID, Tags.PartyIDSource, Tags.PartyRole, Tags.NoPartySubIDs, 0};
 
         public NoPartyIDsGroup()
@@ -288,7 +288,7 @@ public class PartyDetailsListRequest : Message
         {
             public static int[] DefaultFieldOrder = [Tags.PartySubID, Tags.PartySubIDType, 0];
 
-            [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+            [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
             public static int[] fieldOrder = {Tags.PartySubID, Tags.PartySubIDType, 0};
 
             public NoPartySubIDsGroup()
@@ -341,7 +341,7 @@ public class PartyDetailsListRequest : Message
     {
         public static int[] DefaultFieldOrder = [Tags.RequestedPartyRole, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.RequestedPartyRole, 0};
 
         public NoRequestedPartyRolesGroup()
@@ -377,7 +377,7 @@ public class PartyDetailsListRequest : Message
     {
         public static int[] DefaultFieldOrder = [Tags.PartyRelationship, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.PartyRelationship, 0};
 
         public NoPartyRelationshipsGroup()

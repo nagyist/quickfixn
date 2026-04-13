@@ -191,7 +191,7 @@ public static class GenMessages {
             "{",
             $"    public static int[] DefaultFieldOrder = [{string.Join(", ", fieldOrderStrings)}];",
             "",
-            "    [Obsolete(\"Use DefaultFieldOrder instead.  This will be removed in a future release.\")]",
+            "    [Obsolete(\"Use DefaultFieldOrder instead.  This will be removed in 1.16.\")]",
             $"    public static int[] fieldOrder = {{{string.Join(", ", fieldOrderStrings)}}};",
             "",
             $"    public {group.Name}Group()",

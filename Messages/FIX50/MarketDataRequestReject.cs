@@ -121,7 +121,7 @@ public class MarketDataRequestReject : Message
     {
         public static int[] DefaultFieldOrder = [Tags.AltMDSourceID, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.AltMDSourceID, 0};
 
         public NoAltMDSourceGroup()

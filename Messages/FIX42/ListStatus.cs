@@ -211,7 +211,7 @@ public class ListStatus : Message
     {
         public static int[] DefaultFieldOrder = [Tags.ClOrdID, Tags.CumQty, Tags.OrdStatus, Tags.LeavesQty, Tags.CxlQty, Tags.AvgPx, Tags.OrdRejReason, Tags.Text, Tags.EncodedTextLen, Tags.EncodedText, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.ClOrdID, Tags.CumQty, Tags.OrdStatus, Tags.LeavesQty, Tags.CxlQty, Tags.AvgPx, Tags.OrdRejReason, Tags.Text, Tags.EncodedTextLen, Tags.EncodedText, 0};
 
         public NoOrdersGroup()

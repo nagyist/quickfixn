@@ -1171,7 +1171,7 @@ public class NewOrderSingle : Message
     {
         public static int[] DefaultFieldOrder = [Tags.AllocAccount, Tags.AllocShares, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.AllocAccount, Tags.AllocShares, 0};
 
         public NoAllocsGroup()
@@ -1223,7 +1223,7 @@ public class NewOrderSingle : Message
     {
         public static int[] DefaultFieldOrder = [Tags.TradingSessionID, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.TradingSessionID, 0};
 
         public NoTradingSessionsGroup()

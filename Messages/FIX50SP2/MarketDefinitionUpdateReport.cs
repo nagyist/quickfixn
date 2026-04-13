@@ -619,7 +619,7 @@ public class MarketDefinitionUpdateReport : Message
     {
         public static int[] DefaultFieldOrder = [Tags.StartTickPriceRange, Tags.EndTickPriceRange, Tags.TickIncrement, Tags.TickRuleType, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.StartTickPriceRange, Tags.EndTickPriceRange, Tags.TickIncrement, Tags.TickRuleType, 0};
 
         public NoTickRulesGroup()
@@ -703,7 +703,7 @@ public class MarketDefinitionUpdateReport : Message
     {
         public static int[] DefaultFieldOrder = [Tags.LotType, Tags.MinLotSize, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.LotType, Tags.MinLotSize, 0};
 
         public NoLotTypeRulesGroup()
@@ -755,7 +755,7 @@ public class MarketDefinitionUpdateReport : Message
     {
         public static int[] DefaultFieldOrder = [Tags.OrdType, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.OrdType, 0};
 
         public NoOrdTypeRulesGroup()
@@ -791,7 +791,7 @@ public class MarketDefinitionUpdateReport : Message
     {
         public static int[] DefaultFieldOrder = [Tags.TimeInForce, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.TimeInForce, 0};
 
         public NoTimeInForceRulesGroup()
@@ -827,7 +827,7 @@ public class MarketDefinitionUpdateReport : Message
     {
         public static int[] DefaultFieldOrder = [Tags.ExecInstValue, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.ExecInstValue, 0};
 
         public NoExecInstRulesGroup()

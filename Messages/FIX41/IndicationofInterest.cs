@@ -481,7 +481,7 @@ public class IndicationofInterest : Message
     {
         public static int[] DefaultFieldOrder = [Tags.IOIQualifier, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.IOIQualifier, 0};
 
         public NoIOIQualifiersGroup()

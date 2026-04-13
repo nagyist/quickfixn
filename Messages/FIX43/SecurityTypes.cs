@@ -205,7 +205,7 @@ public class SecurityTypes : Message
     {
         public static int[] DefaultFieldOrder = [Tags.SecurityType, Tags.Product, Tags.CFICode, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.SecurityType, Tags.Product, Tags.CFICode, 0};
 
         public NoSecurityTypesGroup()

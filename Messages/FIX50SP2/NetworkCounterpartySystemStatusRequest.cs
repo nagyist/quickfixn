@@ -75,7 +75,7 @@ public class NetworkCounterpartySystemStatusRequest : Message
     {
         public static int[] DefaultFieldOrder = [Tags.RefCompID, Tags.RefSubID, Tags.LocationID, Tags.DeskID, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.RefCompID, Tags.RefSubID, Tags.LocationID, Tags.DeskID, 0};
 
         public NoCompIDsGroup()

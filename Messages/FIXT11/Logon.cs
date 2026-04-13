@@ -221,7 +221,7 @@ public class Logon : Message
     {
         public static int[] DefaultFieldOrder = [Tags.RefMsgType, Tags.MsgDirection, Tags.RefApplVerID, Tags.RefCstmApplVerID, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.RefMsgType, Tags.MsgDirection, Tags.RefApplVerID, Tags.RefCstmApplVerID, 0};
 
         public NoMsgTypesGroup()

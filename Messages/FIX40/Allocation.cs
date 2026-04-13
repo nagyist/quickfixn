@@ -469,7 +469,7 @@ public class Allocation : Message
     {
         public static int[] DefaultFieldOrder = [Tags.ClOrdID, Tags.OrderID, Tags.ListID, Tags.WaveNo, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.ClOrdID, Tags.OrderID, Tags.ListID, Tags.WaveNo, 0};
 
         public NoOrdersGroup()
@@ -553,7 +553,7 @@ public class Allocation : Message
     {
         public static int[] DefaultFieldOrder = [Tags.ExecID, Tags.LastShares, Tags.LastPx, Tags.LastMkt, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.ExecID, Tags.LastShares, Tags.LastPx, Tags.LastMkt, 0};
 
         public NoExecsGroup()
@@ -637,7 +637,7 @@ public class Allocation : Message
     {
         public static int[] DefaultFieldOrder = [Tags.MiscFeeAmt, Tags.MiscFeeCurr, Tags.MiscFeeType, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.MiscFeeAmt, Tags.MiscFeeCurr, Tags.MiscFeeType, 0};
 
         public NoMiscFeesGroup()
@@ -705,7 +705,7 @@ public class Allocation : Message
     {
         public static int[] DefaultFieldOrder = [Tags.AllocAccount, Tags.AllocShares, Tags.ProcessCode, Tags.ExecBroker, Tags.ClientID, Tags.Commission, Tags.CommType, Tags.NoDlvyInst, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.AllocAccount, Tags.AllocShares, Tags.ProcessCode, Tags.ExecBroker, Tags.ClientID, Tags.Commission, Tags.CommType, Tags.NoDlvyInst, 0};
 
         public NoAllocsGroup()
@@ -852,7 +852,7 @@ public class Allocation : Message
         {
             public static int[] DefaultFieldOrder = [Tags.BrokerOfCredit, Tags.DlvyInst, 0];
 
-            [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+            [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
             public static int[] fieldOrder = {Tags.BrokerOfCredit, Tags.DlvyInst, 0};
 
             public NoDlvyInstGroup()

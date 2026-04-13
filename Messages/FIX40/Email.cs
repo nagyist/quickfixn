@@ -153,7 +153,7 @@ public class Email : Message
     {
         public static int[] DefaultFieldOrder = [Tags.Text, 0];
 
-        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in a future release.")]
+        [Obsolete("Use DefaultFieldOrder instead.  This will be removed in 1.16.")]
         public static int[] fieldOrder = {Tags.Text, 0};
 
         public LinesOfTextGroup()

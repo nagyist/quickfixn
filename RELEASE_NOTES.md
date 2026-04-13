@@ -34,6 +34,7 @@ What's New
 * #841 - experimental support for CME Enhanced Resend (gbirchmeier)
 * #961 - new GenerateKeys app to create Example-app SSL certs (dckorben/gbirchmeier)
 * #1001 - AcceptanceTests bug: double.Parse with InvariantCulture (gbirchmeier)
+* #562 - deprecate Message.IsHeaderField without transport DD param (gbirchmeier)
 
 
 ### v1.14.0

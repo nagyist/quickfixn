@@ -212,12 +212,20 @@ public class Message : FieldMap
         }
     }
 
-    public static bool IsHeaderField(int tag, DD? dd)
+    /// <summary>
+    /// Determine if field is a header field.
+    /// If transportDataDictionary is null, compares against a hard-coded list of header fields as
+    /// specified in the standard FIX data dictionaries.
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <param name="transportDataDictionary"></param>
+    /// <returns></returns>
+    public static bool IsHeaderField(int tag, DD? transportDataDictionary)
     {
         if (IsGenericHeaderField(tag))
             return true;
-        if (dd is not null)
-            return dd.IsHeaderField(tag);
+        if (transportDataDictionary is not null)
+            return transportDataDictionary.IsHeaderField(tag);
         return false;
     }
 

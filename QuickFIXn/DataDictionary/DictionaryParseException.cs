@@ -1,13 +1,12 @@
 ﻿using System;
 
-namespace QuickFix
+namespace QuickFix.DataDictionary;
+
+public class DictionaryParseException : ApplicationException
 {
-    public class DictionaryParseException : ApplicationException
-    {
-        public DictionaryParseException() { }
-        public DictionaryParseException(string message)
-            : base(message) { }
-        public DictionaryParseException(string message, System.Exception inner)
-            : base(message, inner) { }
-    }
+    public DictionaryParseException() { }
+    public DictionaryParseException(string message)
+        : base(message) { }
+    public DictionaryParseException(string message, System.Exception inner)
+        : base(message, inner) { }
 }

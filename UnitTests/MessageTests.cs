@@ -217,9 +217,18 @@ namespace UnitTests
         [Test]
         public void IsHeaderFieldTest()
         {
-            Assert.That(Message.IsHeaderField(Tags.BeginString), Is.EqualTo(true));
-            Assert.That(Message.IsHeaderField(Tags.TargetCompID), Is.EqualTo(true));
-            Assert.That(Message.IsHeaderField(Tags.Account), Is.EqualTo(false));
+            Assert.That(Message.IsHeaderField(Tags.BeginString, null), Is.EqualTo(true));
+            Assert.That(Message.IsHeaderField(Tags.TargetCompID, null), Is.EqualTo(true));
+            Assert.That(Message.IsHeaderField(Tags.Account, null), Is.EqualTo(false));
+
+            var dd = new QuickFix.DataDictionary.DataDictionary();
+            dd.LoadFIXSpec("FIX44");
+            dd.Header.AddField(
+                new QuickFix.DataDictionary.DDField(901109, "FakeField", new Dictionary<string, string>(), "STRING"));
+
+            Assert.That(Message.IsHeaderField(Tags.TargetCompID, dd), Is.EqualTo(true));
+            Assert.That(Message.IsHeaderField(Tags.Account, dd), Is.EqualTo(false));
+            Assert.That(Message.IsHeaderField(901109, dd), Is.EqualTo(true));
         }
 
         [Test]

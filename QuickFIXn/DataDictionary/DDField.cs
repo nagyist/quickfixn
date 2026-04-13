@@ -13,22 +13,22 @@ public class DDField
     /// <param name="name"></param>
     /// <param name="enums">dictionary of enum=>description values</param>
     /// <param name="fixFldType"></param>
-    public DDField(int tag, String name, IReadOnlyDictionary<String, String> enums, String fixFldType)
+    public DDField(int tag, string name, IReadOnlyDictionary<string, string> enums, string fixFldType)
     {
         this.Tag = tag;
         this.Name = name;
         this.EnumDict = enums.ToFrozenDictionary();
         this.FixFldType = fixFldType;
-        this.FieldType = FieldTypeFromFix(this.FixFldType, out bool isMVFWE);
-        this.IsMultipleValueFieldWithEnums = isMVFWE;
+        this.FieldType = FieldTypeFromFix(this.FixFldType, out bool isMultipleValueFieldWithEnums);
+        this.IsMultipleValueFieldWithEnums = isMultipleValueFieldWithEnums;
     }
 
     public int Tag { get; private set; }
-    public String Name { get; private set; }
+    public string Name { get; private set; }
 
-    public IReadOnlyDictionary<String, String> EnumDict { get; }
+    public IReadOnlyDictionary<string, string> EnumDict { get; }
 
-    public String FixFldType { get; private set; }
+    public string FixFldType { get; private set; }
     public Type FieldType { get; private set; }
 
     /// <summary>
@@ -36,14 +36,14 @@ public class DDField
     /// </summary>
     public bool IsMultipleValueFieldWithEnums { get; private set; }
 
-    public Boolean HasEnums()
+    public bool HasEnums()
     {
         return EnumDict.Count > 0;
     }
 
-    private Type FieldTypeFromFix(String type, out bool multipleValueFieldWithEnums)
+    private Type FieldTypeFromFix(string type, out bool isMultipleValueFieldWithEnums)
     {
-        multipleValueFieldWithEnums = false;
+        isMultipleValueFieldWithEnums = false;
 
         switch (type)
         {
@@ -54,9 +54,9 @@ public class DDField
             case "AMT": return typeof(Fields.DecimalField);
             case "QTY": return typeof(Fields.DecimalField);
             case "CURRENCY": return typeof(Fields.StringField);
-            case "MULTIPLEVALUESTRING": multipleValueFieldWithEnums = true; return typeof(Fields.StringField);
-            case "MULTIPLESTRINGVALUE": multipleValueFieldWithEnums = true; return typeof(Fields.StringField);
-            case "MULTIPLECHARVALUE": multipleValueFieldWithEnums = true; return typeof(Fields.StringField);
+            case "MULTIPLEVALUESTRING": isMultipleValueFieldWithEnums = true; return typeof(Fields.StringField);
+            case "MULTIPLESTRINGVALUE": isMultipleValueFieldWithEnums = true; return typeof(Fields.StringField);
+            case "MULTIPLECHARVALUE": isMultipleValueFieldWithEnums = true; return typeof(Fields.StringField);
             case "EXCHANGE": return typeof(Fields.StringField);
             case "UTCTIMESTAMP": return typeof(Fields.DateTimeField);
             case "BOOLEAN": return typeof(Fields.BooleanField);

@@ -49,7 +49,7 @@ public class Message : FieldMap
     public Message(string msgstr, DD? transportDict, DD? appDict, bool validate)
         : this()
     {
-        PopulateHeaderFromMessageString(msgstr);
+        PopulateHeaderFromMessageString(msgstr, transportDict);
         if (IsAdmin())
             FromString(msgstr, validate, transportDict, transportDict, null, false);
         else
@@ -90,6 +90,14 @@ public class Message : FieldMap
         return tag;
     }
 
+    /// <summary>
+    /// Extract a field whose length is determined by a datalength field
+    /// </summary>
+    /// <param name="msgstr"></param>
+    /// <param name="dataLength"></param>
+    /// <param name="pos"></param>
+    /// <returns></returns>
+    /// <exception cref="MessageParseError"></exception>
     public static StringField ExtractDataField(string msgstr, int dataLength, ref int pos)
     {
         try
@@ -116,6 +124,13 @@ public class Message : FieldMap
         }
     }
 
+    /// <summary>
+    /// Extract a field that ends with SOH
+    /// </summary>
+    /// <param name="msgstr"></param>
+    /// <param name="pos"></param>
+    /// <returns></returns>
+    /// <exception cref="MessageParseError"></exception>
     public static StringField ExtractField(string msgstr, ref int pos)
     {
         try
@@ -123,7 +138,7 @@ public class Message : FieldMap
             int tagend = msgstr.IndexOf('=', pos);
             int tag = Convert.ToInt32(msgstr.Substring(pos, tagend - pos));
             pos = tagend + 1;
-            int fieldvalend = msgstr.IndexOf((char)1, pos);
+            int fieldvalend = msgstr.IndexOf(SOH, pos);
             StringField field =  new StringField(tag, msgstr.Substring(pos, fieldvalend - pos));
 
             pos = fieldvalend + 1;
@@ -149,7 +164,19 @@ public class Message : FieldMap
         return ExtractField(msgstr, ref i).Value;
     }
 
+    [Obsolete("This method is deprecated and will be removed in 1.16. Use IsHeaderField(int tag, DD? dd) instead.")]
     public static bool IsHeaderField(int tag)
+    {
+        return IsGenericHeaderField(tag);
+    }
+
+    /// <summary>
+    /// Determine if field is a header according to the standard vanilla DD.
+    /// The header list in this function is hardcoded.
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    private static bool IsGenericHeaderField(int tag)
     {
         switch (tag)
         {
@@ -184,12 +211,21 @@ public class Message : FieldMap
                 return false;
         }
     }
-    public static bool IsHeaderField(int tag, DD? dd)
+
+    /// <summary>
+    /// Determine if field is a header field.
+    /// If transportDataDictionary is null, compares against a hard-coded list of header fields as
+    /// specified in the standard FIX data dictionaries.
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <param name="transportDataDictionary"></param>
+    /// <returns></returns>
+    public static bool IsHeaderField(int tag, DD? transportDataDictionary)
     {
-        if (IsHeaderField(tag))
+        if (IsGenericHeaderField(tag))
             return true;
-        if (dd is not null)
-            return dd.IsHeaderField(tag);
+        if (transportDataDictionary is not null)
+            return transportDataDictionary.IsHeaderField(tag);
         return false;
     }
 
@@ -319,7 +355,7 @@ public class Message : FieldMap
         Trailer.Clear();
     }
 
-    private void PopulateHeaderFromMessageString(string msgstr)
+    private void PopulateHeaderFromMessageString(string msgstr, DD? dd)
     {
         Clear();
 
@@ -332,7 +368,7 @@ public class Message : FieldMap
             if (count < 3 && Header.HEADER_FIELD_ORDER[count++] != f.Tag)
                 return;
 
-            if(IsHeaderField(f.Tag))
+            if(IsHeaderField(f.Tag, dd))
                 Header.SetField(f, false);
             else
                 break;
@@ -368,18 +404,10 @@ public class Message : FieldMap
 
         while (pos < msgstr.Length)
         {
-            StringField? f = null;
-
             int fieldTag = ExtractFieldTag(msgstr, pos);
-            if (fieldTag == Tags.XmlData)
-            {
-                if (IsHeaderField(Tags.XmlDataLen))
-                    f = ExtractDataField(msgstr, Header.GetInt(Tags.XmlDataLen), ref pos);
-                else if (IsSetField(Tags.XmlDataLen))
-                    f = ExtractDataField(msgstr, GetInt(Tags.XmlDataLen), ref pos);
-            }
-
-            f ??= ExtractField(msgstr, ref pos);
+            StringField f = fieldTag == Tags.XmlData
+                ? ExtractDataField(msgstr, Header.GetInt(Tags.XmlDataLen), ref pos)
+                : ExtractField(msgstr, ref pos);
 
             if (validate && (count < 3) && (Header.HEADER_FIELD_ORDER[count++] != f.Tag))
                 throw new InvalidMessage("Header fields out of order");

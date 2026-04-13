@@ -2,7 +2,7 @@
 
 #pragma warning disable 0628 // Suppress "new protected member declared in sealed class" warning.
 
-namespace QuickFix;
+namespace QuickFix.DataDictionary;
 
 [Obsolete("This class will be removed in 1.16 (because it's unused)")]
 public sealed class MissingRequiredFieldException : ApplicationException

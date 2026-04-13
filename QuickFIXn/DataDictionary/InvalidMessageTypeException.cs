@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuickFix;
+namespace QuickFix.DataDictionary;
 
 [Obsolete("This class will be removed in 1.16 (because it's unused)")]
 public class InvalidMessageTypeException : ApplicationException

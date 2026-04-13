@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QuickFix;
+namespace QuickFix.DataDictionary;
 
 public class DictionaryParseException : ApplicationException
 {

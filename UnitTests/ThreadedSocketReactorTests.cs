@@ -6,61 +6,60 @@ using System.Net;
 using System.Net.Sockets;
 using QuickFix.Logger;
 
-namespace UnitTests
+namespace UnitTests;
+
+[TestFixture]
+public class ThreadedSocketReactorTests
 {
-    [TestFixture]
-    public class ThreadedSocketReactorTests
+    static TcpListener? _tcpListener;
+
+    private int OccupyAPort()
     {
-        static TcpListener? _tcpListener;
-
-        private int OccupyAPort()
+        Random random = new();
+        for (int i = 0; i < 10; i++)
         {
-            Random random = new();
-            for (int i = 0; i < 10; i++)
+            try
             {
-                try
-                {
-                    int randomPort = random.Next(5000, 6000);
-                    _tcpListener = new TcpListener(IPAddress.Loopback, randomPort);
-                    _tcpListener.Start();
-                    
-                    return randomPort;
-                }
-                catch { }
+                int randomPort = random.Next(5000, 6000);
+                _tcpListener = new TcpListener(IPAddress.Loopback, randomPort);
+                _tcpListener.Start();
+
+                return randomPort;
             }
-
-            throw new Exception("Could not occupy a port in 10 attempts");
+            catch { }
         }
 
-        static StringWriter GetStdOut()
-        {
-            var stringWriter = new StringWriter();
-            Console.SetOut(stringWriter);
-            return stringWriter;
-        }
+        throw new Exception("Could not occupy a port in 10 attempts");
+    }
 
-        [Test]
-        public void TestStartOnBusyPort()
-        {
-            var port = OccupyAPort();
+    static StringWriter GetStdOut()
+    {
+        var stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+        return stringWriter;
+    }
 
-            var settings = new SocketSettings();
-            var testingObject = new ThreadedSocketReactor(
-                new IPEndPoint(IPAddress.Loopback, port),
-                settings,
-                acceptorSocketDescriptor: null,
-                new LogFactoryAdapter(new ScreenLogFactory(true, true, true)));
+    [Test]
+    public void TestStartOnBusyPort()
+    {
+        var port = OccupyAPort();
 
-            var stdOut = GetStdOut();
-            var ex = Assert.Throws<SocketException>(delegate { testingObject.Start(); })!;
+        var settings = new SocketSettings();
+        var testingObject = new ThreadedSocketReactor(
+            new IPEndPoint(IPAddress.Loopback, port),
+            settings,
+            acceptorSocketDescriptor: null,
+            new LogFactoryAdapter(new ScreenLogFactory(true, true, true)));
 
-            Assert.That(stdOut.ToString(), Does.StartWith("<event> Error starting listener"));
-            Assert.That(ex.SocketErrorCode, Is.EqualTo(SocketError.AddressAlreadyInUse));
-        }
+        var stdOut = GetStdOut();
+        var ex = Assert.Throws<SocketException>(delegate { testingObject.Start(); })!;
 
-        [TearDown]
-        public void TearDown() {
-            _tcpListener?.Stop();
-        }
+        Assert.That(stdOut.ToString(), Does.StartWith("<event> Error starting listener"));
+        Assert.That(ex.SocketErrorCode, Is.EqualTo(SocketError.AddressAlreadyInUse));
+    }
+
+    [TearDown]
+    public void TearDown() {
+        _tcpListener?.Stop();
     }
 }

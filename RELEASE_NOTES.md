@@ -36,6 +36,7 @@ What's New
 * #1001 - AcceptanceTests bug: double.Parse with InvariantCulture (gbirchmeier)
 * #562 - deprecate Message.IsHeaderField without transport DD param (gbirchmeier)
 * #949 - new settings RedactFieldsInLogs & RedactionLogText (gbirchmeier)
+* #983 - new MessageFactoryNotFound exception provides better feedback (gbirchmeier)
 
 
 ### v1.14.0

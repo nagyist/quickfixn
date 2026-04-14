@@ -671,6 +671,21 @@ namespace QuickFix
                     _state.IncrNextTargetMsgSeqNum();
                 }
             }
+            catch (MessageFactoryNotFound mfnf)
+            {
+                if (MsgType.LOGOUT.Equals(msgBuilder.MsgType.Value))
+                {
+                    NextLogout(message!);
+                }
+                else
+                {
+                    // We shouldn't send that question to the counterparty, but local devs should see it
+                    Log.Log(LogLevel.Error, mfnf,
+                        "{Message} (Did you forget a message package dependency?)", mfnf.ToString());
+                    GenerateLogout(mfnf.Message);
+                    _state.IncrNextTargetMsgSeqNum();
+                }
+            }
             catch (UnsupportedMessageType e)
             {
                 Log.Log(LogLevel.Error, e, "Unsupported message type: {Message}", e.Message);

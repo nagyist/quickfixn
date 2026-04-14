@@ -89,7 +89,7 @@ public class DefaultMessageFactory : IMessageFactory
         if (_factories.TryGetValue(key, out IMessageFactory? factory))
             return factory.Create(beginString, msgType, groupCounterTag);
 
-        throw new UnsupportedVersion(beginString);
+        throw new MessageFactoryNotFound(beginString);
     }
 
     #endregion

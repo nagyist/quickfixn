@@ -78,6 +78,18 @@ public class UnsupportedVersion : QuickFIXException
 }
 
 /// <summary>
+/// DefaultMessageFactory can't find a factory that matches this BeginString.
+/// This may indicate a missing package dependency,
+/// e.g. user forgot to add the QuickFIXn.FIX42 or .FIX50SP2 package.
+/// </summary>
+public class MessageFactoryNotFound : QuickFIXException
+{
+    public MessageFactoryNotFound(string beginString)
+        : base($"Message factory not found for BeginString={beginString}.")
+    { }
+}
+
+/// <summary>
 /// Message type is not supported by application
 /// </summary>
 public class UnsupportedMessageType : QuickFIXException

@@ -21,13 +21,6 @@ internal class AcceptorSocketDescriptor
         SocketReactor = new ThreadedSocketReactor(Address, socketSettings, this, loggerFactory);
     }
 
-    internal AcceptorSocketDescriptor(
-        IPEndPoint socketEndPoint,
-        SocketSettings socketSettings,
-        SettingsDictionary sessionDict,
-        IQuickFixLoggerFactory nonSessionLog) : this(socketEndPoint, socketSettings, nonSessionLog)
-    { }
-
     internal void AcceptSession(Session session)
     {
         lock (_acceptedSessions)

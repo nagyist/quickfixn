@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace QuickFix.Util
+namespace QuickFix.Util;
+
+internal static class ExceptionExtensions
 {
-    internal static class ExceptionExtensions
+    public static string GetFullMessage(this Exception ex)
     {
-        public static string GetFullMessage(this Exception ex)
-        {
-            return ex.InnerException == null
-                ? ex.Message
-                : ex.Message + " --> " + ex.InnerException.GetFullMessage();
-        }
+        return ex.InnerException == null
+            ? ex.Message
+            : ex.Message + " --> " + ex.InnerException.GetFullMessage();
     }
 }

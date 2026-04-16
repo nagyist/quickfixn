@@ -245,9 +245,10 @@ public static class DateTimeConverter
 
         return time;
     }
-    
+
     /// <summary>
-    /// Converts the specified string to a <see cref="DateTime"/>.
+    /// Converts the specified string to a <see cref="DateTime"/> WHERE ONLY THE TIME PARTS ARE MEANINGFUL.
+    /// (The date parts of the return value will always be set to 1980-01-01, DateTime.Kind==Unspecified.)
     /// The string must be in the format "HH:mm:ss" optionally followed by fractional seconds
     /// and then optionally followed by UTC offset information.
     /// </summary>
@@ -268,8 +269,7 @@ public static class DateTimeConverter
     /// Consider calling the latter for flexibility.
     /// </remarks>
     /// <exception cref="FieldConvertError">The conversion cannot be performed successfully.</exception>
-    public static DateTime ParseToTimeOnly(string str) => new DateOnly(1980, 1, 1).ToDateTime(ParseToTimeOnly(str, out _));
-    // (^^Yes, it intentionally does return a DateTime.  For now.)
+    internal static DateTime InternalParseToTimeOnly(string str) => new DateOnly(1980, 1, 1).ToDateTime(ParseToTimeOnly(str, out _));
 
     /// <summary>
     /// For the given <paramref name="span"/>, read consecutive ASCII digits
@@ -621,4 +621,7 @@ public static class DateTimeConverter
             ? ToFIXTimeOnly(dt, TimeStampPrecision.Millisecond)
             : ToFIXTimeOnly(dt, TimeStampPrecision.Second);
     }
+
+    [Obsolete("Don't use this function, it probably doesn't do what you think it does.  Will be removed in v1.16.")]
+    public static DateTime ParseToTimeOnly(string str) => InternalParseToTimeOnly(str);
 }

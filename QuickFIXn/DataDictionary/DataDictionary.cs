@@ -305,7 +305,7 @@ public class DataDictionary
             else if (type == typeof(DateOnlyField))
                 Fields.Converters.DateTimeConverter.ParseToDateOnly(field.ToString());
             else if (type == typeof(TimeOnlyField))
-                Fields.Converters.DateTimeConverter.ParseToTimeOnly(field.ToString());
+                Fields.Converters.DateTimeConverter.InternalParseToTimeOnly(field.ToString());
         }
         catch (FieldConvertError e)
         {

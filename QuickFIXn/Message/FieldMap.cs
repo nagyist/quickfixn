@@ -385,6 +385,8 @@ public class FieldMap : IEnumerable<KeyValuePair<int, IField>> {
 
     /// <summary>
     /// Gets the TimeOnly value of a field
+    /// as a DateTime WHERE ONLY THE TIME PARTS ARE MEANINGFUL.
+    /// (The date parts of the return value will always be set to 1980-01-01, DateTime.Kind==Unspecified.)
     /// </summary>
     /// <param name="tag">the FIX tag</param>
     /// <returns>the DateTime value</returns>
@@ -397,7 +399,7 @@ public class FieldMap : IEnumerable<KeyValuePair<int, IField>> {
         if (fld is FieldBase<DateTime> dateTimeField)
             return new DateTime(1980, 01, 01).Add(dateTimeField.Value.TimeOfDay);
 
-        return DateTimeConverter.ParseToTimeOnly(fld.ToString());
+        return DateTimeConverter.InternalParseToTimeOnly(fld.ToString());
     }
 
     /// <summary>

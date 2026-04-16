@@ -37,6 +37,7 @@ What's New
 * #562 - deprecate Message.IsHeaderField without transport DD param (gbirchmeier)
 * #949 - new settings RedactFieldsInLogs & RedactionLogText (gbirchmeier)
 * #983 - new MessageFactoryNotFound exception provides better feedback (gbirchmeier)
+* #1014 - deprecate DateTimeConverter.ParseToTimeOnly (gbirchmeier)
 
 
 ### v1.14.0

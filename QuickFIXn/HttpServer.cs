@@ -10,6 +10,15 @@ using QuickFix.ObjectPooling;
 
 namespace QuickFix;
 
+/// <summary>
+/// This server is primitive and should not be relied on for production environments.
+/// Also, it contains no logger, writing what few outputs it has to the console.
+/// This component is not a priority of the QF/n project,
+/// but we're always accepting of contributions to improve it.
+///
+/// See https://github.com/connamara/quickfixn/issues/738 for some remarks
+/// on why this component does not incorporate QF logging.
+/// </summary>
 public class HttpServer : IDisposable {
     private readonly HttpListener _httpListener;
     private readonly Thread _connectionThread;
@@ -186,8 +195,8 @@ public class HttpServer : IDisposable {
                 output.Write(buffer, 0, buffer.Length);
                 output.Close();
             }
-        } catch (HttpListenerException) {
-            Console.WriteLine("HTTP server was shut down.");
+        } catch (HttpListenerException ex) {
+            Console.WriteLine($"HTTP server was shut down\n: {ex}");
         }
     }
 
